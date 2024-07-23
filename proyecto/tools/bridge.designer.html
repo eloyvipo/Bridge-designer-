@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <title>Eloy's Bridge designer</title>
+  <link type="text/css" rel="stylesheet" href="C:/Users/User/Desktop/proyecto/assets/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <canvas id="main-canvas"></canvas>
+  </div>
+
+
+  <div class="toolbar">
+    <button id="add-button" onclick="creationMode = true; desactivateSelectMode()">Add</button>
+    <button onclick="creationMode = false">Drag</button><br/>
+    
+    <button onclick="activateSelectMode()">Select</button> 
+    <button onclick="deleteSelected()">Delete</button><br/>
+    
+    <button id="copy-button">Copy</button>
+    <button id="paste-button">Paste</button><br/>
+ 
+    <button onclick="checkStability()">Stability</button>  
+    <button onclick="simulateWithTruck()">Weaknesses</button><br/> 
+    
+    <button onclick="animateBridge()">Simulation</button>
+    <button id="toggleGridButton">Grid</button><br/>
+
+   
+
+
+    <button onclick="generateBridge()">Generate Bridge</button><br/> 
+
+
+    <button onclick="copyBridge()">Coords</button>
+    <button onclick="pasteBridge()">Load</button>
+    <button onclick="openMaterialModal()">Info</button><br/>
+    <button id="reset">Clear</button>
+
+    <button onclick=undo()>Undo</button>
+    <button onclick=redo()>Redo</button>
+
+
+  </div>
+
+
+  <div id="material-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeMaterialModal()">&times;</span>
+        <div class="modal-header">
+            <h2 class="modal-title"> 500mm IPN steel</h2>
+            <div class="modal-links">
+                <a href="https://aceropanel.es/viga-ipn/243-perfil-viga-ipn-500mm" target="_blank">Buy</a>
+                <a href="https://www.dlubal.com/es/propiedades-de-la-seccion-transversal/ipn-500-din-1025-1-1995-05-nf-a-45-209-1983-arcelormittal-2009" target="_blank">View specifications</a>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <p id="material-text">
+                <strong>Weight:</strong> 141 kg/m <br>
+                <strong>Price:</strong> 312.22 €/m <br>
+                <strong>Keyboard Shortcuts:</strong> "a" = add, "s" = select, "d" = drag, "r" = clear, "deletekeys" = delete selection, 
+                "ctrl+z" = undo, "ctrl+y" = redo, "ctrl+c" = copy selected, "ctrl+v" = paste selected, "keyboardarrows" = move selection
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+  
+
+  <div id="position-editor">
+    <div>
+      X: <input type="text" name="x" id="position-editor-x" autocomplete="off" onkeydown="if (event.keyCode == 13) jointEditor.updateButton();"> 
+    </div>
+    <div>
+      Y: <input type="text" name="y" id="position-editor-y" autocomplete="off" onkeydown="if (event.keyCode == 13) jointEditor.updateButton();"> 
+    </div>
+    <div>
+      F: <input type="text" name="f" id="position-editor-f" autocomplete="off" onkeydown="if (event.keyCode == 13) jointEditor.updateButton();"> 
+    </div>
+    <div style="text-align:center; margin-top: 5px;">
+      <button onclick="jointEditor.updateButton();">Update</button><br/>
+      <button onclick="jointEditor.removeButton();">Remove</button><br/>
+
+      <button id="position-editor-lock-x" onclick="jointEditor.lockButton('x');">Lock X</button>
+      <button id="position-editor-lock-y" onclick="jointEditor.lockButton('y');">Lock Y</button><br/>
+      <button onclick="jointEditor.jointTypeButton(null);">Joint</button>
+      <button onclick="jointEditor.jointTypeButton('f');">Fixed</button>
+      <button onclick="jointEditor.jointTypeButton('s');">Slide</button><br/>
+      <button onclick="jointEditor.closeButton();">x</button>
+    </div>
+  </div>
+
+  <div id="beam-editor">
+    <div>
+      Force: <input type="text" name="f" id="beam-editor-f" autocomplete="off" onkeydown="if (event.keyCode == 13) beamEditor.updateButton();"> N/mm
+    </div>
+    <div style="text-align:center; margin-top: 5px;">
+      <button onclick="beamEditor.updateButton();">Update</button><br/>
+      <button onclick="beamEditor.removeButton();">Remove</button><br/>
+      <button onclick="beamEditor.closeButton();">x</button>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="C:/Users/User/Desktop/proyecto/assets/js/numeric-1.2.6.min.js"></script>
+  <script type="text/javascript" src="C:/Users/User/Desktop/proyecto/assets/js/app-v1.1.min.js"></script>
+  
+  
+  <script>
+    
+    // Función para recargar la página
+    document.getElementById('reset').addEventListener('click', function() {
+      location.reload();
+    });
+  </script>
+
+
+  <script type="text/javascript">
+    // Función para abrir la ventana modal
+    function openMaterialModal() {
+      document.getElementById('material-modal').style.display = 'block';
+    }
+  
+    // Función para cerrar la ventana modal
+    function closeMaterialModal() {
+      document.getElementById('material-modal').style.display = 'none';
+    }
+  
+    // Cerrar la ventana modal si el usuario hace clic fuera de ella
+    window.onclick = function(event) {
+      const modal = document.getElementById('material-modal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+
+
+  </script>
+  
+  
+
+</body>
+</html>
+
